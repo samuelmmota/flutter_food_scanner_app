@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1016131447938",
+    "project_id": "projetopam22-23",
+    "storage_bucket": "projetopam22-23.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1016131447938:android:34b90f36234d03f34c989b",
+        "android_client_info": {
+          "package_name": "edu.ufp.flutter.food_scanner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1016131447938-jbi6dan5dspouridpjsi59gae04apgfe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCw6yfsl4vis9O8aw7sPpKLo5vE5WAuEsI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1016131447938-jbi6dan5dspouridpjsi59gae04apgfe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

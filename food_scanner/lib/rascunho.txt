@@ -1,0 +1,145 @@
+import 'package:flutter/material.dart';
+import 'screens/login_page.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Authentication',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        brightness: Brightness.light,
+        primarySwatch: Colors.blue,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            textStyle: TextStyle(
+              fontSize: 24.0,
+            ),
+            padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+          ),
+        ),
+        textTheme: TextTheme(
+          headline1: TextStyle(
+            fontSize: 46.0,
+            color: Colors.blue.shade700,
+            fontWeight: FontWeight.w500,
+          ),
+          bodyText1: TextStyle(fontSize: 18.0),
+        ),
+      ),
+      home: LoginPage(),
+    );
+  }
+}
+----------//----------
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('App Food Recipes'),
+        backgroundColor: Colors.blue.shade700,
+      ),
+      drawer:  NavigationDrawer(),
+     // body: LoginPage(),
+    );
+  }
+  }
+
+  ------------//---------------
+
+class AuthService {
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  Stream<User?> get onAuthStateChanged => _firebaseAuth.authStateChanges();
+  // GET UID
+  Future<String?> getCurrentUID() async {
+    return _firebaseAuth.currentUser?.uid;
+  }
+}
+class Provider extends InheritedWidget {
+  final AuthService auth;
+  Provider({
+    required Key key,
+    required Widget child,
+    required this.auth,
+  }) : super(key: key, child: child);
+
+  @override
+  bool updateShouldNotify(InheritedWidget oldWiddget) {
+    return true;
+  }
+  static Provider? of(BuildContext context) =>
+      (context.dependOnInheritedWidgetOfExactType<Provider>());
+}
+
+
+/**
+ * class MyApp extends StatelessWidget {
+    const MyApp({super.key});
+
+    static const String _title = 'Flutter Code Sample';
+
+    @override
+    Widget build(BuildContext context) {
+    return const MaterialApp(
+    title: _title,
+    home: HomgePage(),
+    );
+    }
+    }
+ */
+
+
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Provider(
+        auth: AuthService(),
+    child: MaterialApp(
+    title: 'Dreamora',
+    theme: ThemeData(
+    // fontFamily: "Montserrat",
+    brightness: Brightness.light,
+    inputDecorationTheme: InputDecorationTheme(
+    contentPadding:
+    EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
+    border: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(5.0),
+    ),
+    ),
+    primarySwatch: Colors.purple,
+    visualDensity: VisualDensity.adaptivePlatformDensity,
+    ),
+    home: HomeController(),
+    );
+  },
+  ),
+  ),
+}
+//(I think i have messed up the brackets here, but, you get the
+//gist)
+
+class HomeController extends StatelessWidget {
+  const HomeController({super.key});
+  @override
+  Widget build(BuildContext context) {
+    final AuthService auth = Provider.of(context).auth;
+    return StreamBuilder(
+      stream: auth.onAuthStateChanged,
+      builder: (context, AsyncSnapshot<String> snapshot) {
+        if (snapshot.connectionState == ConnectionState.active) {
+          final bool signedIn = snapshot.hasData;
+          return signedIn ? DashBoard() : FirstView();
+        }
+        return Container(
+          color: Colors.black,
+        );
+      },
+    );
+  }
+}
