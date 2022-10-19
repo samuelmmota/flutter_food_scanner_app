@@ -1,14 +1,12 @@
 import 'dart:ffi';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:food_scanner/screens/search.dart';
+import 'package:food_scanner/screens/search_page.dart';
 import 'screens/login_page.dart';
 import 'package:food_scanner/screens/profile_page.dart';
+import 'screens/home_page.dart';
 
 //void main() => runApp(const MainScreen());
 void main() async {
@@ -21,7 +19,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  static const String _title = 'Flutter Code Sample';
+  static const String _title = 'Flutter Recipe App';
 
   @override
   Widget build(BuildContext context) {
@@ -54,12 +52,6 @@ abstract class  _MyAppState extends State<MyApp> {
   }
   static const String _title = 'Flutter Code Sample';
 
-
-
-  }
-
- */
-
 class HomgePage extends StatelessWidget {
   const HomgePage({super.key});
 
@@ -72,6 +64,10 @@ class HomgePage extends StatelessWidget {
         drawer: const NavigationDrawer(),
       );
 }
+
+  }
+
+ */
 
 class NavigationDrawer extends StatelessWidget {
   const NavigationDrawer({super.key});
@@ -106,7 +102,7 @@ Widget buildMenuItems(BuildContext context) => Container(
             onTap: () {
               Navigator.pop(context);
               Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => HomgePage(),
+                builder: (context) => HomePage(),
               ));
             },
           ),
