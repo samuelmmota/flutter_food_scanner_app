@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:food_scanner/models/recipeDataModel.dart';
+import 'package:food_scanner/screens/detail_page.dart';
 import 'image_card_content.dart';
 
 class FillImageCard extends StatelessWidget {
@@ -17,6 +19,7 @@ class FillImageCard extends StatelessWidget {
     this.color = Colors.white,
     this.tagSpacing,
     this.tagRunSpacing,
+    this.pathimageURL,
   }) : super(key: key);
 
   /// card width
@@ -58,6 +61,8 @@ class FillImageCard extends StatelessWidget {
   /// widget footer of card
   final Widget? footer;
 
+  final String? pathimageURL;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -76,11 +81,12 @@ class FillImageCard extends StatelessWidget {
               topLeft: Radius.circular(borderRadius),
               topRight: Radius.circular(borderRadius),
             ),
-            child: Image(
-              image: imageProvider,
+            child: Image.network(
+              pathimageURL!,
+              //image: pathimageProvider,
               width: width,
               height: heightImage,
-              fit: BoxFit.cover,
+              // fit: BoxFit.cover,
             ),
           ),
           ImageCardContent(
@@ -105,10 +111,42 @@ Widget _title({Color? color, String? title}) {
   );
 }
 
-Widget _content({Color? color}) {
-  return Text(
-    'This a card description',
-    style: TextStyle(color: color),
+Widget _content({Color? color, Recipe? recipe, BuildContext? context}) {
+  return ClipRRect(
+    borderRadius: BorderRadius.circular(4),
+    child: Stack(
+      children: <Widget>[
+        Positioned.fill(
+          child: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: <Color>[
+                  Color.fromARGB(255, 161, 13, 13),
+                  Color.fromARGB(255, 210, 25, 25),
+                  Color.fromARGB(255, 245, 66, 66),
+                ],
+              ),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 40,
+          child: TextButton(
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.all(12.0),
+              textStyle: const TextStyle(fontSize: 12),
+            ),
+            onPressed: () {
+              // _launchURL(sourceUrl!);
+              Navigator.of(context!).push(MaterialPageRoute(
+                  builder: (context) => RecipeDetail(recipe!)));
+            },
+            child: const Text('Open Recipe'),
+          ),
+        )
+      ],
+    ),
   );
 }
 
@@ -149,13 +187,14 @@ Widget _tag(String tag, VoidCallback onPressed) {
   );
 }
 
-Widget createcard(BuildContext context, String title) {
+Widget createcard(BuildContext context, Recipe recipe) {
   return FillImageCard(
     width: 340,
     heightImage: 160,
-    imageProvider: AssetImage('assets/mockup.png'),
+    imageProvider: AssetImage(recipe.image),
+    pathimageURL: recipe.image,
     tags: [_tag('Vegan', () {}), _tag('Vegetarian', () {})],
-    title: _title(title: title),
-    description: _content(),
+    title: _title(title: recipe.title),
+    description: _content(recipe: recipe, context: context),
   );
 }

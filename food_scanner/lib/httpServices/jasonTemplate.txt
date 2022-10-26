@@ -1,0 +1,13 @@
+"title": "Fresh Apple Cake With Caramel Sauce",
+"vegetarian": true,
+"healthScore": 77,
+"vegan": false,
+"readyInMinutes": 45,
+"servings": 1,
+"sourceUrl": "https://www.foodista.com/recipe/DBJYD6L8/fresh-apple-cake-with-caramel-sauce",
+"image": "https://spoonacular.com/recipeImages/643426-556x370.jpg",
+"imageType": "jpg",
+"healthScore": 77,
+"summary": "If you want to add more <b>lacto ovo vegetarian</b> recipes to your recipe box, Fresh Apple Cake With Caramel Sauce might be a recipe you should try. For <b>$11.58 per serving</b>, this recipe <b>covers 77%</b> of your daily requirements of vitamins and minerals. One serving contains <b>8596 calories</b>, <b>79g of protein</b>, and <b>456g of fat</b>. This recipe serves 1. Only a few people made this recipe, and 9 would say it hit the spot. It works well as a pricey dessert. If you have coconut, cinnamon, brown sugar, and a few other ingredients on hand, you can make it. It is brought to you by Foodista. From preparation to the plate, this recipe takes around <b>around 45 minutes</b>. Taking all factors into account, this recipe <b>earns a spoonacular score of 90%</b>, which is spectacular. If you like this recipe, take a look at these similar recipes: <a href=\"https://spoonacular.com/recipes/fresh-apple-cake-with-caramel-sauce-418753\">Fresh Apple Cake with Caramel Sauce</a>, <a href=\"https:
+"sourceName": "Foodista",
+"instructions": "Toast the sesame seeds, about 350 degrees in the oven for about 10-15 minutes. Keep an eye on them to make sure they don't burn.Mix together the following to make the dressing: olive oil, vinegar, sugar, salt, pepper, green onions, chicken flavor packet from the ramen noodle package.Crush the ramen noodles until there are no large chunks (small chunks are OK).Combine the shredded cabbage and ramen noodles in a large bowl.Pour the dressing on the cabbage/noodle mixture and toss to coat.Top with the toasted sesame seeds and almonds."

@@ -80,3 +80,64 @@ class _HomePageState extends State<HomePage> {
     */
   }
 }
+
+
+/**
+ * class HomePageCards extends StatelessWidget {
+  const HomePageCards({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color(0xFFE5E5E5),
+      drawer: const NavigationDrawer(),
+      appBar: AppBar(
+        title: Text('Home Page'),
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(height: 12),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Column(
+                    children: [
+                      createcard(context, "tittle"),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      createcard(context, "tittle"),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      createcard(context, "tittle"),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      createcard(context, "tittle"),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      createcard(context, "tittle")
+                    ],
+                  ),
+                ),
+              ],
+            )),
+      ),
+    );
+  }
+}
+
+ */
+ /*List<String> items = List.generate(
+    10,
+    (index) => "Item ${index + 1}",
+  );
+  List<Recipe> itemCards =
+     List.generate(10, (index) => Recipe("Item ${index + 1}", ""));
+  */

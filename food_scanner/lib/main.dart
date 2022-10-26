@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,7 +7,6 @@ import 'screens/login_page.dart';
 import 'package:food_scanner/screens/profile_page.dart';
 import 'screens/home_page.dart';
 
-//void main() => runApp(const MainScreen());
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -29,45 +27,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-/**
- *  
-abstract class  _MyAppState extends State<MyApp> {
-  Future<FirebaseApp> _initializeFirebase() async {
-    FirebaseApp firebaseApp = await Firebase.initializeApp();
-
-    User? user = FirebaseAuth.instance.currentUser;
-
-    if (user != null) {
-      //login sucessfull
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => HomgePage(
-          ),
-        ),
-      );
-    }
-
-    return firebaseApp;
-  }
-  static const String _title = 'Flutter Code Sample';
-
-class HomgePage extends StatelessWidget {
-  const HomgePage({super.key});
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: const Text("Home"),
-          backgroundColor: Colors.blue.shade700,
-        ),
-        drawer: const NavigationDrawer(),
-      );
-}
-
-  }
-
- */
 
 class NavigationDrawer extends StatelessWidget {
   const NavigationDrawer({super.key});
@@ -125,7 +84,7 @@ Widget buildMenuItems(BuildContext context) => Container(
             },
           ),
           ListTile(
-            leading: const Icon(Icons.person),
+            leading: const Icon(Icons.search),
             title: const Text("Search Recipe"),
             onTap: () {
               Navigator.pop(context);
@@ -135,14 +94,6 @@ Widget buildMenuItems(BuildContext context) => Container(
             },
           ),
           const Divider(color: Colors.black54),
-          /*   ListTile(
-        leading: const Icon(Icons.home_outlined),
-        title: const Text("LogIn"),
-        onTap: (){
-          Navigator.pop(context);
-          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginPage(),));
-        },
-      ), */
           ListTile(
             leading: const Icon(Icons.logout),
             title: const Text("LogOut"),
