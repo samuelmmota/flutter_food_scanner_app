@@ -90,7 +90,7 @@ class _HomePageState extends State<HomePage> {
     //  List.generate(Bayut.numcards, (index) => staticRecipe);
     /*** Receitas From Rapid API */
     //
-    List<Recipe> newitemCards = await Bayut.getRESTrecepies();
+    List<Recipe> newitemCards = await Bayut.getrecepies();
 
     setState(() {
       /*
