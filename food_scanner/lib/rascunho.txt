@@ -143,3 +143,105 @@ class HomeController extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
+
+
+  ListView.builder(
+          controller: controller,
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          itemCount: itemCards.length + 1,
+          itemBuilder: (context, index) {
+            if (index < itemCards.length) {
+              final Recipe item = itemCards[index];
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SizedBox(height: 30),
+                  createcard(context, item),
+                ],
+              );
+            } else {
+              return const Padding(
+                padding: EdgeInsets.symmetric(vertical: 32),
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            }
+          }),
+
+
+           ListView.builder(
+                   // controller: controller,
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                   // itemCount: itemCards.length + 1,
+                    itemBuilder: (context, index) {
+                    //  if (index < itemCards.length) {
+                      //  final Recipe item = itemCards[index];
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            TextField(
+                              onChanged: (text) async {
+                                print('searching for => $text');
+                             //   List<Recipe> newitemCards = await Bayut.getrecepies();
+                              },
+                              controller: searchController,
+                              decoration: InputDecoration(
+                                prefixIcon: Icon(Icons.search),
+                                border: OutlineInputBorder(),
+                                hintText: 'Search Recipes name',
+                              ),
+                            ),
+                            const SizedBox(height: 30),
+                           Text("data")
+                           // createcard(context, item),
+                          ],
+                        );
+
+
+
+
+
+
+Widget _searchTab() {
+  TextEditingController searchController = new TextEditingController();
+  final controller = ScrollController();
+  bool isLoading = false;
+  List<Recipe> itemCards = [];
+  return Container(
+    child: Column(
+      children: [
+        TextField(
+          onChanged: (text) {
+            print('searching for => $text');
+          },
+          controller: searchController,
+          decoration: const InputDecoration(
+            prefixIcon: Icon(Icons.search),
+            border: OutlineInputBorder(),
+            hintText: 'Search Recipes name',
+          ),
+        ),
+        TextButton(
+          onPressed: (
+
+              ) {
+            print("this is the text to search for => ${searchController.text}");
+          },
+          child: Text("Search"),
+        ),
+      ],
+    ),
+  );
+
+
+
+
+

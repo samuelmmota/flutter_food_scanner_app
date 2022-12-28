@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../main.dart';
 
+
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
 
@@ -93,12 +94,14 @@ Widget _searchTab() {
           hintText: 'Search Recipes name',
         ),
       ),
-      /*TextButton(
-        onPressed: () {
+      TextButton(
+        onPressed: (
+
+            ) {
           print("this is the text to search for => ${searchController.text}");
         },
         child: Text("Search"),
-      ),*/
+      ),
     ],
   );
 }

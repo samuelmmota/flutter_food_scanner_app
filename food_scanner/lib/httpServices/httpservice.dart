@@ -47,9 +47,10 @@ class Bayut {
         Uri.parse(
             "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/$id/information"),
         headers: {
-          "x-rapidapi-key": "07ad1250b6msh6d028fc8946e7d2p15b3cfjsn5c7dcfe409ab",
+          "x-rapidapi-key":
+              "07ad1250b6msh6d028fc8946e7d2p15b3cfjsn5c7dcfe409ab",
           "x-rapidapi-host":
-          "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
+              "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
         });
     var status = response.statusCode;
 
@@ -60,10 +61,8 @@ class Bayut {
     if (response.statusCode != 200) {
     } else {
       return response.body;
-
     }
     return "";
-
   }
 
   //------------------------------------------------||--------------------------
@@ -88,19 +87,19 @@ class Bayut {
       bool vegetarian = toBoolean(mode[0]["vegetarian"].toString());
       bool vegan = toBoolean(mode[0]["vegan"].toString());
 
-/**Recipe(
-    this.title,
-    this.image,
-    this.sourceUrl,
-    this.summary,
-    this.instructions,
-    this.sourceName,
-    this.servings,
-    this.healthScore,
-    this.readyInMinutes,
-    this.vegetarian,
-    this.vegan,
-  ); */
+      /**Recipe(
+          this.title,
+          this.image,
+          this.sourceUrl,
+          this.summary,
+          this.instructions,
+          this.sourceName,
+          this.servings,
+          this.healthScore,
+          this.readyInMinutes,
+          this.vegetarian,
+          this.vegan,
+          ); */
       Recipe auxrecipe = Recipe(
         mode[0]["title"].stringValue,
         mode[0]["image"].stringValue,
@@ -121,48 +120,34 @@ class Bayut {
     return returnrecipes;
   }
 
-  static Future<List<Recipe>> getSearchRecipes() async {
+  static Future<List<Recipe>> getSearchRecipes(String string) async {
+    List<int> recipesIds = [];
     List<Recipe> returnrecipes = [];
-    var result = await Bayut._restSearchRecipe("cheesecake");
-
+    var result = await Bayut._restSearchRecipe(string);
     List<dynamic> list = result?.entries.elementAt(0).value;
-    String list2 = jsonEncode(list);
-    final mode = JSON.parse(list2);
 
-    debugPrint(mode.toString());
-    // bool vegetarian = toBoolean(mode[0]["vegetarian"].toString());
-    // bool vegan = toBoolean(mode[0]["vegan"].toString());
-
-    /* Recipe auxrecipe = Recipe(
-        mode[0]["title"].stringValue,
-        mode[0]["image"].stringValue,
-        mode[0]["sourceUrl"].stringValue,
-        mode[0]["summary"].stringValue,
-        mode[0]["instructions"].stringValue,
-        mode[0]["sourceName"].stringValue,
-        int.parse(mode[0]["servings"].toString()),
-        int.parse(mode[0]["healthScore"].toString()),
-        int.parse(mode[0]["readyInMinutes"].toString()),
-        vegetarian,
-        vegan,
-      );
-      print(auxrecipe.toString());
-      returnrecipes.add(auxrecipe);
+    if(list!=null){
+      for(int index=0; index<list.length; index++){
+        var recipe= list.elementAt(index);
+        String jsonencode = jsonEncode(recipe);
+        final mode = JSON.parse(jsonencode);
+        recipesIds.add(int.parse(mode["id"].toString()));
+        var resultRecipe = await Bayut.getRecipeById(int.parse(mode["id"].toString()));
+        returnrecipes.add(resultRecipe);
+      }
     }
-    print(returnrecipes);
-    return returnrecipes;
-    */
+
     return returnrecipes;
   }
 
-  static Future<List<Recipe>> getRecipeById(int id) async {
+  static Future<Recipe> getRecipeById(int id) async {
     List<Recipe> returnrecipes = [];
     var result = await Bayut._restRecipebyId(id);
 
     print(result);
 
     //List<dynamic> list = result?.entries.elementAt(0).value;
-   // String list2 = jsonEncode(result);
+    // String list2 = jsonEncode(result);
     // 0x01 parse json string to object
     final mode = JSON.parse(result);
 
@@ -170,18 +155,18 @@ class Bayut {
     bool vegan = toBoolean(mode["vegan"].toString());
 
     /**Recipe(
-          this.title,
-          this.image,
-          this.sourceUrl,
-          this.summary,
-          this.instructions,
-          this.sourceName,
-          this.servings,
-          this.healthScore,
-          this.readyInMinutes,
-          this.vegetarian,
-          this.vegan,
-          ); */
+        this.title,
+        this.image,
+        this.sourceUrl,
+        this.summary,
+        this.instructions,
+        this.sourceName,
+        this.servings,
+        this.healthScore,
+        this.readyInMinutes,
+        this.vegetarian,
+        this.vegan,
+        ); */
     Recipe recipe = Recipe(
       mode["title"].stringValue,
       mode["image"].stringValue,
@@ -210,13 +195,9 @@ bool toBoolean(String str, [bool strict = false]) {
 }
 
 void main(List<String> args) async {
-  //var result = await Bayut.getPropertiesDetail();
-  //var result = await Bayut._restRecipebyId();
-
   print("teste");
-  //testingcrl2(1092983);
-  var resultbyid = await Bayut.getRecipeById(1092983);
-
+  //var resultbyid = await Bayut.getRecipeById(1092983);
+  var result = await Bayut.getSearchRecipes("cheesecake");
 }
 
 void testingcrl() async {
