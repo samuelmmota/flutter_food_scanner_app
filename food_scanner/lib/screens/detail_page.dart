@@ -8,34 +8,120 @@ import 'package:html/dom.dart' as dom;
 import 'package:html/parser.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:sqflite/sqflite.dart' as sql;
+import 'package:path/path.dart' as path;
+import 'package:json_annotation/json_annotation.dart';
+import 'dart:developer';
+import '../models/recipeDataModel.dart';
 
-class RecipeDetail extends StatelessWidget {
+class RecipeDetail extends StatefulWidget {
   final Recipe recipe;
-  const RecipeDetail(this.recipe, {super.key});
+
+  RecipeDetail({required this.recipe});
+
+  @override
+  _RecipeDetailState createState() => _RecipeDetailState();
+}
+
+class _RecipeDetailState extends State<RecipeDetail> {
+  bool _isFavorited = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadFavoriteStatus();
+  }
+
+  void _toggleFavorite() async {
+    final db = await sql.openDatabase(
+      path.join(await sql.getDatabasesPath(), 'favorites.db'),
+      onCreate: (db, version) {
+        log('SQL-Favorites.db: Table recipes created');
+        db.execute(
+          //"CREATE TABLE recipes(id INT PRIMARY KEY, title TEXT)",
+          "CREATE TABLE recipes(id INTEGER PRIMARY KEY, title TEXT, image TEXT, sourceUrl TEXT, summary TEXT, instructions TEXT, sourceName TEXT, servings INTEGER, healthScore INTEGER, readyInMinutes INTEGER);",
+        );
+
+        return ;
+      },
+      version: 1,
+    );
+
+    setState(() {
+      _isFavorited = !_isFavorited;
+    });
+
+    if (_isFavorited) {
+      await db.insert(
+        'recipes',
+        widget.recipe.toJson(),
+        conflictAlgorithm: sql.ConflictAlgorithm.replace,
+      );
+    } else {
+      await db.delete(
+        'recipes',
+        where: "id = ?",
+        whereArgs: [widget.recipe.id],
+      );
+    }
+
+    await db.close();
+  }
+
+  void _loadFavoriteStatus() async {
+    final db = await sql.openDatabase(
+      path.join(await sql.getDatabasesPath(), 'favorites.db'),
+      version: 1,
+    );
+
+    final count = await db.query(
+      'recipes',
+      where: "id = ?",
+      whereArgs: [widget.recipe.id],
+    );
+
+    setState(() {
+      _isFavorited =  true;
+    });
+
+    await db.close();
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: TyperAnimatedTextKit(
-          text: [this.recipe.sourceName],
+          text: [widget.recipe.sourceName],
           textStyle: TextStyle(fontSize: 20.0, fontFamily: "Bobbers"),
         ),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            _titulo(this.recipe.title),
-            Image.network(this.recipe.image.toString()),
+            _titulo(widget.recipe.title),
+            Image.network(widget.recipe.image.toString()),
+            ButtonBar(
+              children: [
+                IconButton(
+                  icon: _isFavorited
+                      ? Icon(Icons.favorite)
+                      : Icon(Icons.favorite_border),
+                  color: _isFavorited ? Colors.red : null,
+                  onPressed: _toggleFavorite,
+                ),
+              ],
+            ),
             _popUPrecepiInfos(
-              this.recipe.healthScore,
-              this.recipe.servings,
-              this.recipe.readyInMinutes,
+              widget.recipe.healthScore,
+              widget.recipe.servings,
+              widget.recipe.readyInMinutes,
             ),
             _bold("Resumo"),
-            _texto(this.recipe.summary),
+            _texto(widget.recipe.summary),
             _bold("Instruções"),
-            _texto(this.recipe.instructions),
+            _texto(widget.recipe.instructions),
             SizedBox(
               height: 60,
               child: TextButton(
@@ -45,11 +131,11 @@ class RecipeDetail extends StatelessWidget {
                   textStyle: const TextStyle(fontSize: 20),
                 ),
                 onPressed: () {
-                  _launchURL(this.recipe.sourceUrl);
+                  _launchURL(widget.recipe.sourceUrl);
                 },
                 child: const Text('Open in Browser'),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -154,4 +240,4 @@ _launchURL(String sourceUrl) async {
     this.readyInMinutes,
     this.vegetarian,
     this.vegan,
-  ); */
+    ); */

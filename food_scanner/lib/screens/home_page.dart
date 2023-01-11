@@ -10,6 +10,7 @@ class HomePage extends StatefulWidget {
 }
 
 final Recipe staticRecipe = Recipe(
+  123456789,
   "Fresh Apple Cake With Caramel Sauce",
   "https://spoonacular.com/recipeImages/643426-556x370.jpg",
   "https://www.foodista.com/recipe/DBJYD6L8/fresh-apple-cake-with-caramel-sauce",
@@ -19,8 +20,8 @@ final Recipe staticRecipe = Recipe(
   2,
   30,
   100,
-  true,
-  false,
+ // true,
+  //false,
 );
 
 class _HomePageState extends State<HomePage> {

@@ -140,7 +140,7 @@ Widget _content({Color? color, Recipe? recipe, BuildContext? context}) {
             onPressed: () {
               // _launchURL(sourceUrl!);
               Navigator.of(context!).push(MaterialPageRoute(
-                  builder: (context) => RecipeDetail(recipe!)));
+                  builder: (context) => RecipeDetail(recipe: recipe!)));
             },
             child: const Text('Open Recipe'),
           ),

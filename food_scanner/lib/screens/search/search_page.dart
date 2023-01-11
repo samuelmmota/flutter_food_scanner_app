@@ -1,11 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import '../main.dart';
-
+import '../scan/camara.dart';
+import '../../main.dart';
 
 class SearchPage extends StatelessWidget {
-  const SearchPage({super.key});
+ // final String imagePath;
+//  const SearchPage({super.key, required this.imagePath});
+    const SearchPage({super.key});
 
 /*  @override
   Widget build(BuildContext context) => Scaffold(
@@ -15,6 +16,7 @@ class SearchPage extends StatelessWidget {
     ),
     drawer: const NavigationDrawer(),
     */
+
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
@@ -39,6 +41,8 @@ class _SearchPageWidgetState extends State<SearchPageWidget> {
     _camscanTab(),
   ];
 
+
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -46,6 +50,7 @@ class _SearchPageWidgetState extends State<SearchPageWidget> {
   }
 
   @override
+
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const NavigationDrawer(),
@@ -107,11 +112,22 @@ Widget _searchTab() {
 }
 
 Widget _camscanTab() {
+
   const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  return const Text(
-    'Index 2: School',
-    style: optionStyle,
+  return SizedBox(
+    height: 40,
+    child: TextButton(
+      style: TextButton.styleFrom(
+        foregroundColor: Colors.blueAccent,
+        padding: const EdgeInsets.all(12.0),
+        textStyle: const TextStyle(fontSize: 12),
+      ),
+      onPressed: () {
+        OpenCamera();
+      },
+      child: const Text('Open Camera'),
+    ),
   );
 }
 

@@ -1,4 +1,10 @@
+import 'package:json_annotation/json_annotation.dart';
+part 'recipeDataModel.g.dart';
+
+//import 'recipeDataModel.g.dart';
+@JsonSerializable()
 class Recipe {
+  int id;
   String title;
   String image;
   String sourceUrl;
@@ -8,10 +14,12 @@ class Recipe {
   int servings;
   int healthScore;
   int readyInMinutes;
-  bool vegetarian;
-  bool vegan;
+ // bool vegetarian;
+  //bool vegan;
+
 
   Recipe(
+    this.id,
     this.title,
     this.image,
     this.sourceUrl,
@@ -21,9 +29,24 @@ class Recipe {
     this.servings,
     this.healthScore,
     this.readyInMinutes,
-    this.vegetarian,
-    this.vegan,
+    //this.vegetarian,
+    //this.vegan,
   );
+  factory Recipe.fromJson(Map<String, dynamic> json) => _$RecipeFromJson(json);
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'title': title,
+    'image': image,
+    'sourceUrl': sourceUrl,
+    'summary': summary,
+    'instructions': instructions,
+    'sourceName': sourceName,
+    'servings': servings,
+    'healthScore': healthScore,
+    'readyInMinutes': readyInMinutes,
+    //'vegetarian': vegetarian,
+   // 'vegan': vegan,
+};
 }
 
 /**

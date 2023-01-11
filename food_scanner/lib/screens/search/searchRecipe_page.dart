@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../cards/fill_image_card.dart';
-import '../httpServices/httpservice.dart';
-import '../models/recipeDataModel.dart';
+import '../../cards/fill_image_card.dart';
+import '../../httpServices/httpservice.dart';
+import '../../main.dart';
+import '../../models/recipeDataModel.dart';
 
 void main() => runApp(new MyApp());
 
@@ -11,25 +12,23 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Search Recipes',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'ListView with Search'),
+      home: SearchRecipePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({super.key, required this.title});
-
-  final String title;
+class SearchRecipePage extends StatefulWidget {
+  SearchRecipePage({super.key});
 
   @override
   _MyHomePageState2 createState() => new _MyHomePageState2();
 }
 
-class _MyHomePageState2 extends State<MyHomePage> {
+class _MyHomePageState2 extends State<SearchRecipePage> {
   TextEditingController searchController = new TextEditingController();
   TextEditingController editingController = TextEditingController();
   final controller = ScrollController();
@@ -58,8 +57,9 @@ class _MyHomePageState2 extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const NavigationDrawer(),
       appBar: new AppBar(
-        title: new Text(widget.title),
+        title: new Text("Search Recipes"),
       ),
       body: Container(
         child: Column(

@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:math';
 import 'package:food_scanner/screens/home_page.dart';
 import 'package:g_json/g_json.dart';
 import 'package:http/http.dart';
@@ -14,9 +13,16 @@ class Bayut {
   static final int numcards = 4;
   static const _url =
       'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com';
-  static const _apiKey = '07ad1250b6msh6d028fc8946e7d2p15b3cfjsn5c7dcfe409ab';
+  static const _apiKey = '1c48709454mshf63ea384742c69fp1b8ef2jsnaf56c74540da';
 
   Bayut._();
+
+
+  static Future<Map<String, dynamic>?> _restGetRandomRecipe_Fake() async {
+    var result = await HttpReqService.get<JMap>(
+        'https://mocki.io/v1/a8148701-3c63-4665-a4dc-190af750b05a',);
+    return result;
+  }
 
   static Future<Map<String, dynamic>?> _restGetRandomRecipe() async {
     var result = await HttpReqService.get<JMap>(
@@ -48,7 +54,7 @@ class Bayut {
             "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/$id/information"),
         headers: {
           "x-rapidapi-key":
-              "07ad1250b6msh6d028fc8946e7d2p15b3cfjsn5c7dcfe409ab",
+              "1c48709454mshf63ea384742c69fp1b8ef2jsnaf56c74540da",
           "x-rapidapi-host":
               "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
         });
@@ -64,6 +70,65 @@ class Bayut {
     }
     return "";
   }
+  //------------------------------------------------|SEARCH WITH CAMERA|-----------------------------------------------------------------------
+  static Future<String> getcamAPI(String path) async {
+  // "/data/user/0/edu.ufp.flutter.food_scanner/cache/CAP1661843087946890547.jpg"
+    // Your RapidAPI endpoint URL
+    final String endpoint = 'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/images/analyze';
+
+// Your RapidAPI headers
+    final Map<String, String> headers = {
+    'X-RapidAPI-Key': '1c48709454mshf63ea384742c69fp1b8ef2jsnaf56c74540da',
+    };
+// Your file to be included in the request body
+   // final File file = File(path);
+    final File file = File("/data/user/0/edu.ufp.flutter.food_scanner/cache/CAP1661843087946890547.jpg");
+// Create a MultipartRequest
+    final request = http.MultipartRequest('POST', Uri.parse(endpoint));
+
+// Set the headers for the request
+    request.headers.addAll(headers);
+
+// Add the file to the request body
+    request.files.add(await http.MultipartFile.fromPath('file', file.path));
+
+// Send the request and handle the response
+    final response = await request.send();
+    final responseData = await response.stream.toBytes();
+    final responseString = String.fromCharCodes(responseData);
+    //log(responseString);
+    return responseString;
+  }
+
+  static Future<Map<String, dynamic>?>getFAKEcamAPI(String path) async {
+      var result = await HttpReqService.get<JMap>(
+        'https://mocki.io/v1/dfb854ec-eb99-470f-9bfa-b593208703e0',);
+      return result;
+    }
+
+  static Future<List<Recipe>> getScanedRecepies(String path) async {
+    log("ENtei aqui");
+    List<int> recipesIds = [];
+    List<Recipe> returnrecipes = [];
+    //var result = await Bayut.getcamAPI(path);
+    var result = await Bayut.getFAKEcamAPI(path);
+    List<dynamic> list = result?.entries.elementAt(3).value;
+
+    if(list!=null){
+      for(int index=0; index<list.length; index++){
+        var recipe= list.elementAt(index);
+        String jsonencode = jsonEncode(recipe);
+        final mode = JSON.parse(jsonencode);
+        recipesIds.add(int.parse(mode["id"].toString()));
+        var resultRecipe = await Bayut.getRecipeById(int.parse(mode["id"].toString()));
+        returnrecipes.add(resultRecipe);
+      }
+    }
+    log(returnrecipes.toString());
+    return returnrecipes;
+  }
+
+
 
   //------------------------------------------------||--------------------------
 
@@ -71,7 +136,8 @@ class Bayut {
     List<Recipe> returnrecipes = [];
 
     for (int i = 0; i < numcards; i++) {
-      var result = await Bayut._restGetRandomRecipe();
+      //var result = await Bayut._restGetRandomRecipe();
+      var result = await Bayut._restGetRandomRecipe_Fake();
 
       List<dynamic> list = result?.entries.elementAt(0).value;
       String list2 = jsonEncode(list);
@@ -101,6 +167,7 @@ class Bayut {
           this.vegan,
           ); */
       Recipe auxrecipe = Recipe(
+        mode[0]["id"].integerValue,
         mode[0]["title"].stringValue,
         mode[0]["image"].stringValue,
         mode[0]["sourceUrl"].stringValue,
@@ -110,8 +177,8 @@ class Bayut {
         int.parse(mode[0]["servings"].toString()),
         int.parse(mode[0]["healthScore"].toString()),
         int.parse(mode[0]["readyInMinutes"].toString()),
-        vegetarian,
-        vegan,
+       // vegetarian,
+       // vegan,
       );
       print(auxrecipe.toString());
       returnrecipes.add(auxrecipe);
@@ -136,7 +203,6 @@ class Bayut {
         returnrecipes.add(resultRecipe);
       }
     }
-
     return returnrecipes;
   }
 
@@ -168,6 +234,7 @@ class Bayut {
         this.vegan,
         ); */
     Recipe recipe = Recipe(
+      mode[0]["id"].integerValue,
       mode["title"].stringValue,
       mode["image"].stringValue,
       mode["sourceUrl"].stringValue,
@@ -177,8 +244,8 @@ class Bayut {
       int.parse(mode["servings"].toString()),
       int.parse(mode["healthScore"].toString()),
       int.parse(mode["readyInMinutes"].toString()),
-      vegetarian,
-      vegan,
+     // vegetarian,
+     // vegan,
     );
     print(recipe.toString());
     print(recipe.image);
@@ -197,7 +264,9 @@ bool toBoolean(String str, [bool strict = false]) {
 void main(List<String> args) async {
   print("teste");
   //var resultbyid = await Bayut.getRecipeById(1092983);
-  var result = await Bayut.getSearchRecipes("cheesecake");
+  //var result = await Bayut.getSearchRecipes("cheesecake");
+  //var result = await Bayut.getcamAPI("");
+  var result = await Bayut.getScanedRecepies("");
 }
 
 void testingcrl() async {
@@ -205,7 +274,7 @@ void testingcrl() async {
       Uri.parse(
           "https://instagram-data1.p.rapidapi.com/user/info/?username=samuel_mota_"),
       headers: {
-        "x-rapidapi-key": "e88978b76cmshd28a3ff3d0e3fe9p18e08djsn193ced31f2d8",
+        "x-rapidapi-key": "07ad1250b6msh6d028fc8946e7d2p15b3cfjsn5c7dcfe409ab",
         "x-rapidapi-host": "instagram-data1.p.rapidapi.com",
       });
   var status = response.statusCode;

@@ -1,13 +1,20 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:food_scanner/screens/search_page.dart';
+import 'package:food_scanner/screens/favorite_page.dart';
+import 'package:food_scanner/screens/search/search.dart';
+import 'package:food_scanner/screens/search/searchRecipe_page.dart';
+import 'package:food_scanner/screens/search/search_camara.dart';
+import 'package:food_scanner/screens/search/search_page.dart';
 import 'screens/login_page.dart';
 import 'package:food_scanner/screens/profile_page.dart';
+import 'package:food_scanner/screens/scan/camara.dart';
 import 'screens/home_page.dart';
-
 void main() async {
+  //--no-sound-null-safety
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   CheckLogginState();
@@ -89,8 +96,40 @@ Widget buildMenuItems(BuildContext context) => Container(
             onTap: () {
               Navigator.pop(context);
               Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => SearchPage(),
+                //builder: (context) => SearchPage(),
+                builder: (context) => SearchRecipePage(),
               ));
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.camera),
+            title: const Text("Scan Recipes"),
+            onTap: () {
+              User? user = FirebaseAuth.instance.currentUser;
+
+              if (user != null) {
+                //login sucessfull
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => SearchCameraPage(),
+                  ),
+                );
+              }
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.favorite),
+            title: const Text("Favorite Recipes"),
+            onTap: () {
+              User? user = FirebaseAuth.instance.currentUser;
+              if (user != null) {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => FavoriteRecipesPage(
+                    ),
+                  ),
+                );
+              }
             },
           ),
           const Divider(color: Colors.black54),
